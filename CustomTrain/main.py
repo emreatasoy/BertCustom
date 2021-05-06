@@ -19,6 +19,7 @@ model.to(device)
 model.train()
 
 train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+print(train_texts)
 optim = AdamW(model.parameters(), lr=5e-5)
 
 for epoch in range(3):
