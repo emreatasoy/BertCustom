@@ -12,13 +12,14 @@ class AtisDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+
         item['labels'] = torch.tensor(self.labels[idx])
         return item
 
     def __len__(self):
         return len(self.labels)
 
-def read_imdb_split(split_dir):
+def read_atis_split(split_dir):
     split_dir = Path(split_dir)
     texts = []
     labels = []
@@ -40,14 +41,14 @@ def read_imdb_split(split_dir):
 
     return texts, labels
 
-train_texts, train_labels = read_imdb_split('atis/train')
+train_texts, train_labels = read_atis_split('atis/train')
 # print(train_texts)
-# print(train_labels)
+print(len(set(train_labels)))
 
-test_texts, test_labels = read_imdb_split('atis/test')
+test_texts, test_labels = read_atis_split('atis/test')
 
 # print(test_texts)
-# print(test_labels)
+print(len(set(test_labels)))
 
 train_texts, val_texts, train_labels, val_labels = train_test_split(train_texts, train_labels, test_size=.2)
 
@@ -58,5 +59,7 @@ val_encodings = tokenizer(val_texts, truncation=True, padding=True)
 test_encodings = tokenizer(test_texts, truncation=True, padding=True)
 
 train_dataset = AtisDataset(train_encodings, train_labels)
+
+
 val_dataset = AtisDataset(val_encodings, val_labels)
 test_dataset = AtisDataset(test_encodings, test_labels)
