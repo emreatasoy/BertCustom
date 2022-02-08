@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 # Bu fine-tune edeceğimiz modeli indiriyor.
 from transformers import DistilBertForSequenceClassification, AdamW
 
-#cuda_available = torch.cuda.is_available()
+cuda_available = torch.cuda.is_available()
 
 torch.zeros(1).cuda()
 
